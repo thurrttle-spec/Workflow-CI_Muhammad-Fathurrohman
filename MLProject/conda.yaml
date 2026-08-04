@@ -1,0 +1,21 @@
+name: bisindo-mlflow-env
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+    - mlflow==2.17.2
+    - numpy==2.1.3
+    - pandas==2.2.3
+    - scikit-learn==1.5.2
+    - scipy==1.14.1
+    - matplotlib==3.9.4
+    - seaborn==0.13.2
+    - opencv-python==4.10.0.84
+    - scikit-image==0.24.0
+    - Pillow==11.0.0
+    - joblib==1.4.2
+    - tqdm==4.67.1
+    - dagshub==0.3.36

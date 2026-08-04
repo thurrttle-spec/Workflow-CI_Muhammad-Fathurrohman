@@ -1,0 +1,63 @@
+Docker Hub
+==========
+
+Tautan Docker Hub:
+https://hub.docker.com/r/<your_dockerhub_username>/bisindo-classification
+
+─────────────────────────────────────────────────────────────────
+Cara Membuat Docker Image dengan MLflow (Advanced)
+─────────────────────────────────────────────────────────────────
+
+1. Pastikan Docker Desktop sudah terinstall dan berjalan.
+   Download: https://www.docker.com/products/docker-desktop/
+
+2. Login ke Docker Hub:
+       docker login
+
+3. Build Docker image menggunakan MLflow:
+       mlflow models build-docker \
+         --model-uri "runs:/<RUN_ID>/model" \
+         --name "<your_dockerhub_username>/bisindo-classification"
+
+   Ganti <RUN_ID> dengan Run ID dari MLflow tracking.
+   Contoh:
+       mlflow models build-docker \
+         --model-uri "runs:/602aef27c9b249e7b614dac4f5d147a7/model" \
+         --name "mfathurrhmn1937/bisindo-classification"
+
+4. Push image ke Docker Hub:
+       docker push <your_dockerhub_username>/bisindo-classification
+
+5. Verifikasi di Docker Hub:
+       https://hub.docker.com/r/<your_dockerhub_username>/bisindo-classification
+
+─────────────────────────────────────────────────────────────────
+Menambahkan Docker Build ke GitHub Actions (Advanced)
+─────────────────────────────────────────────────────────────────
+
+Tambahkan step berikut di .github/workflows/ci.yml setelah step
+"Upload model artifact":
+
+    - name: Build and Push Docker Image
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        RUN_ID: ${{ steps.mlflow.outputs.run_id }}
+      run: |
+        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        mlflow models build-docker \
+          --model-uri "runs:/$RUN_ID/model" \
+          --name "$DOCKER_USERNAME/bisindo-classification"
+        docker push "$DOCKER_USERNAME/bisindo-classification"
+
+Tambahkan secrets di GitHub:
+  Repository → Settings → Secrets and variables → Actions
+  → New repository secret:
+    - DOCKER_USERNAME = username Docker Hub
+    - DOCKER_PASSWORD = password atau access token Docker Hub
+
+─────────────────────────────────────────────────────────────────
+Catatan
+─────────────────────────────────────────────────────────────────
+- Ganti <your_dockerhub_username> dengan username Docker Hub kamu.
+- Run ID bisa dilihat di MLflow UI atau output terminal saat menjalankan modelling.py.
