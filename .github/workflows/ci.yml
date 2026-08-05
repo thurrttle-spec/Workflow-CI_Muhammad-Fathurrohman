@@ -40,14 +40,7 @@ jobs:
 
       # ── 4. Jalankan MLflow Project ────────────────────────────────
       - name: Run MLflow Project
-        run: |
-          mlflow run MLProject/ --env-manager local \
-            -P n_estimators=200 \
-            -P max_depth=None \
-            -P min_samples_split=5 \
-            -P max_features=sqrt \
-            -P test_size=0.2 \
-            -P random_state=42
+        run: mlflow run MLProject/ --env-manager local -P n_estimators=200 -P max_depth=None -P min_samples_split=5 -P max_features=sqrt -P test_size=0.2 -P random_state=42
 
       # ── 5. Upload artefak ke GitHub Actions ───────────────────────
       - name: Upload model artifact
