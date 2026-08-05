@@ -1,4 +1,4 @@
-name: BISINDO Classification CI
+﻿name: BISINDO Classification CI
 
 on:
   push:
