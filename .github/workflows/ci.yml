@@ -13,14 +13,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Set up Python 3.10
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
+
       - name: Install dependencies
         run: pip install mlflow==2.17.2 numpy==2.1.3 pandas==2.2.3 scikit-learn==1.5.2 scipy==1.14.1 matplotlib==3.9.4 seaborn==0.13.2 opencv-python-headless==4.10.0.84 scikit-image==0.24.0 Pillow==11.0.0 joblib==1.4.2
+
       - name: Run MLflow Project
         run: python -c "import subprocess,sys; r=subprocess.run(['mlflow','run','MLProject/','--env-manager','local','-P','n_estimators=200','-P','max_depth=None','-P','min_samples_split=5','-P','max_features=sqrt','-P','test_size=0.2','-P','random_state=42']); sys.exit(r.returncode)"
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
